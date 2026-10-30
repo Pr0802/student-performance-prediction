@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Performance Level Prediction | BCA Project</title>
+  <meta name="description" content="Predict student academic performance levels using Machine Learning (Decision Tree Classifier) and rule-based evaluation. BCA College Project.">
+
+  <!-- Google Fonts: Outfit & Inter for crisp, modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand" onclick="navigateTo('home')">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">EduPredict AI</span>
+          <span class="brand-tag">BCA Final Project</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <button type="button" class="nav-btn active" id="nav-home" onclick="navigateTo('home')">Home</button>
+        <button type="button" class="nav-btn" id="nav-predict" onclick="navigateTo('predict')">Predict Performance</button>
+        <button type="button" class="nav-btn" id="nav-result" onclick="navigateTo('result')" style="display: none;">Result</button>
+        <button type="button" class="nav-btn" id="nav-about" onclick="navigateTo('about')">About System</button>
+      </nav>
+
+      <!-- Model Status Badge -->
+      <div class="model-status-pill" id="model-status-indicator" title="Model operational state">
+        <span class="status-dot pulse"></span>
+        <span id="model-status-text">ML Model Active</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-wrapper">
+
+    <!-- ==========================================
+         PAGE 1: HOME PAGE
+         ========================================== -->
+    <section id="page-home" class="page-section active">
+      <div class="hero-card">
+        <div class="hero-badge">
+          <span class="sparkle">✦</span> Machine Learning & Education Analytics
+        </div>
+
+        <h1 class="hero-heading">
+          Student Performance Level Prediction
+        </h1>
+
+        <p class="hero-subtitle">
+          Predict Student Academic Performance Using Machine Learning
+        </p>
+
+        <p class="hero-description">
+          This system analyzes student information and academic scores to predict student performance levels.
+        </p>
+
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary btn-lg" onclick="navigateTo('predict')">
+            <span>Start Prediction</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <button type="button" class="btn btn-outline btn-lg" onclick="navigateTo('about')">
+            <span>Learn More</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Overview Cards (Clean Educational Info) -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon bg-blue-subtle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3>Decision Tree Classifier</h3>
+          <p>Trained with Scikit-learn on student academic data to classify patterns into 3 clear levels.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon bg-green-subtle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3>3-Tier Performance Levels</h3>
+          <p>Instantly categorizes student results into <strong>High</strong> (≥75%), <strong>Medium</strong> (50–74%), and <strong>Low</strong> (&lt;50%).</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon bg-indigo-subtle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <h3>Dual Prediction Mode</h3>
+          <p>Compare the trained Machine Learning model against the rule-based benchmark prototype easily.</p>
+        </div>
+      </div>
+
+      <!-- Performance Category Guide Card -->
+      <div class="criteria-card">
+        <h3>Official Performance Evaluation Criteria</h3>
+        <div class="criteria-grid">
+          <div class="criterion-item low">
+            <span class="criterion-pill red-pill">Low Performance</span>
+            <span class="criterion-range">Average marks below 50%</span>
+            <span class="criterion-desc">Needs academic improvement & remedial sessions</span>
+          </div>
+          <div class="criterion-item medium">
+            <span class="criterion-pill yellow-pill">Medium Performance</span>
+            <span class="criterion-range">Average marks from 50% to 74%</span>
+            <span class="criterion-desc">Good performance with steady growth potential</span>
+          </div>
+          <div class="criterion-item high">
+            <span class="criterion-pill green-pill">High Performance</span>
+            <span class="criterion-range">Average marks 75% or above</span>
+            <span class="criterion-desc">Excellent academic performance & mastery</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 2: PREDICT PERFORMANCE
+         ========================================== -->
+    <section id="page-predict" class="page-section">
+      <div class="section-header text-center">
+        <h2 class="section-title">Student Performance Predictor</h2>
+        <p class="section-subtitle">Fill in the student details and subject scores below to evaluate academic standing.</p>
+      </div>
+
+      <div class="form-container">
+        <!-- Quick Sample Presets (For BCA Viva Presentation Ease) -->
+        <div class="preset-box">
+          <span class="preset-label">Quick Demo Fill:</span>
+          <div class="preset-buttons">
+            <button type="button" class="preset-btn preset-high" onclick="fillPreset('high')">
+              High Student (Avg 85%)
+            </button>
+            <button type="button" class="preset-btn preset-medium" onclick="fillPreset('medium')">
+              Medium Student (Avg 65%)
+            </button>
+            <button type="button" class="preset-btn preset-low" onclick="fillPreset('low')">
+              Low Student (Avg 42%)
+            </button>
+            <button type="button" class="preset-btn preset-reset" onclick="resetForm()">
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <form id="prediction-form" onsubmit="handlePrediction(event)">
+
+          <!-- Mode Selector: ML vs Rule-Based -->
+          <div class="mode-selector-wrapper">
+            <label class="mode-selector-title">Prediction Engine Mode:</label>
+            <div class="mode-options">
+              <label class="mode-radio-card" id="mode-card-ml">
+                <input type="radio" name="prediction_mode" value="ml" checked onchange="updateModeUI()">
+                <div class="mode-radio-content">
+                  <div class="mode-name">
+                    <span>Machine Learning Model</span>
+                    <span class="badge-mini ml-badge">Decision Tree</span>
+                  </div>
+                  <p class="mode-desc">Uses Scikit-learn DecisionTreeClassifier trained on StudentsPerformance.csv</p>
+                </div>
+              </label>
+
+              <label class="mode-radio-card" id="mode-card-rule">
+                <input type="radio" name="prediction_mode" value="rule_based" onchange="updateModeUI()">
+                <div class="mode-radio-content">
+                  <div class="mode-name">
+                    <span>Rule-Based Prototype</span>
+                    <span class="badge-mini rule-badge">Thresholds</span>
+                  </div>
+                  <p class="mode-desc">Direct average-score classification benchmark (&lt;50, 50-74, ≥75)</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section A: Student Background -->
+          <div class="form-section-title">
+            <span class="num-step">1</span>
+            <span>Student Background Information</span>
+          </div>
+
+          <div class="form-grid">
+            <!-- 1. Gender -->
+            <div class="form-group">
+              <label for="gender" class="form-label">
+                Gender <span class="required">*</span>
+              </label>
+              <select id="gender" name="gender" class="form-control" required>
+                <option value="male" selected>Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+
+            <!-- 2. Parental Education -->
+            <div class="form-group">
+              <label for="parental_education" class="form-label">
+                Parental Education <span class="required">*</span>
+              </label>
+              <select id="parental_education" name="parental_education" class="form-control" required>
+                <option value="some high school">Some High School</option>
+                <option value="high school">High School</option>
+                <option value="some college" selected>Some College</option>
+                <option value="associate's degree">Associate's Degree</option>
+                <option value="bachelor's degree">Bachelor's Degree</option>
+                <option value="master's degree">Master's Degree</option>
+              </select>
+            </div>
+
+            <!-- 3. Lunch Type -->
+            <div class="form-group">
+              <label for="lunch" class="form-label">
+                Lunch Type <span class="required">*</span>
+              </label>
+              <select id="lunch" name="lunch" class="form-control" required>
+                <option value="standard" selected>Standard</option>
+                <option value="free/reduced">Free or Reduced</option>
+              </select>
+            </div>
+
+            <!-- 4. Test Preparation Course -->
+            <div class="form-group">
+              <label for="test_prep" class="form-label">
+                Test Preparation Course <span class="required">*</span>
+              </label>
+              <select id="test_prep" name="test_prep" class="form-control" required>
+                <option value="none" selected>None</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Section B: Subject Marks -->
+          <div class="form-section-title">
+            <span class="num-step">2</span>
+            <span>Academic Subject Marks (0 – 100)</span>
+          </div>
+
+          <div class="form-grid scores-grid">
+            <!-- 5. Mathematics Marks -->
+            <div class="form-group">
+              <label for="math_score" class="form-label">
+                Mathematics Marks <span class="required">*</span>
+              </label>
+              <div class="input-with-icon">
+                <input type="number" id="math_score" name="math_score" min="0" max="100" class="form-control" placeholder="0 - 100" value="78" required>
+                <span class="input-unit">/100</span>
+              </div>
+            </div>
+
+            <!-- 6. Reading Marks -->
+            <div class="form-group">
+              <label for="reading_score" class="form-label">
+                Reading Marks <span class="required">*</span>
+              </label>
+              <div class="input-with-icon">
+                <input type="number" id="reading_score" name="reading_score" min="0" max="100" class="form-control" placeholder="0 - 100" value="82" required>
+                <span class="input-unit">/100</span>
+              </div>
+            </div>
+
+            <!-- 7. Writing Marks -->
+            <div class="form-group">
+              <label for="writing_score" class="form-label">
+                Writing Marks <span class="required">*</span>
+              </label>
+              <div class="input-with-icon">
+                <input type="number" id="writing_score" name="writing_score" min="0" max="100" class="form-control" placeholder="0 - 100" value="86" required>
+                <span class="input-unit">/100</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Average Marks Calculator Preview -->
+          <div class="live-preview-box">
+            <span>Estimated Average:</span>
+            <strong id="live-avg-display">82.0%</strong>
+            <span id="live-category-badge" class="badge-mini green-pill">Likely High</span>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-actions text-center">
+            <button type="submit" id="predict-submit-btn" class="btn btn-primary btn-xl">
+              <span id="btn-text">Predict Performance</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 3: PREDICTION RESULT
+         ========================================== -->
+    <section id="page-result" class="page-section">
+      <div class="section-header text-center">
+        <h2 class="section-title">Prediction Result</h2>
+        <p class="section-subtitle">Comprehensive academic evaluation and student performance classification.</p>
+      </div>
+
+      <div class="result-card-container">
+        <!-- Main Result Card -->
+        <div class="result-card" id="result-main-card">
+
+          <!-- Method/Mode Indicator Header -->
+          <div class="result-engine-header">
+            <span class="result-engine-tag" id="result-engine-tag">
+              <span class="sparkle">⚙</span> <span id="res-engine-name">Decision Tree Classifier</span>
+            </span>
+            <span class="result-date" id="res-timestamp">Evaluated Just Now</span>
+          </div>
+
+          <!-- Average Score Highlight -->
+          <div class="result-score-block">
+            <div class="score-circle-wrapper">
+              <div class="score-circle" id="result-score-circle">
+                <span class="score-number" id="res-average-score">82%</span>
+                <span class="score-sub">Average Score</span>
+              </div>
+            </div>
+
+            <!-- Performance Level Banner -->
+            <div class="result-level-banner" id="result-level-banner">
+              <span class="level-label">Performance Level</span>
+              <div class="level-value" id="res-performance-level">HIGH</div>
+            </div>
+          </div>
+
+          <!-- Performance Message Box -->
+          <div class="result-message-box" id="result-message-box">
+            <div class="message-icon" id="res-message-icon">💡</div>
+            <div class="message-text">
+              <span class="message-title">Academic Recommendation:</span>
+              <p id="res-message-text">“Excellent academic performance! Keep it up.”</p>
+            </div>
+          </div>
+
+          <!-- Subject Marks Breakdown -->
+          <div class="subject-breakdown">
+            <h4 class="breakdown-title">Subject-wise Marks Breakdown</h4>
+            <div class="breakdown-grid">
+              <div class="breakdown-item">
+                <div class="sub-label">
+                  <span>Mathematics</span>
+                  <strong id="res-math-score">78/100</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" id="res-math-bar" style="width: 78%;"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-item">
+                <div class="sub-label">
+                  <span>Reading</span>
+                  <strong id="res-reading-score">82/100</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" id="res-reading-bar" style="width: 82%;"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-item">
+                <div class="sub-label">
+                  <span>Writing</span>
+                  <strong id="res-writing-score">86/100</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" id="res-writing-bar" style="width: 86%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student Profile Summary -->
+          <div class="student-profile-summary">
+            <div class="profile-col">
+              <span class="p-label">Gender:</span>
+              <span class="p-val" id="res-gender">Male</span>
+            </div>
+            <div class="profile-col">
+              <span class="p-label">Parental Education:</span>
+              <span class="p-val" id="res-parent-edu">Some College</span>
+            </div>
+            <div class="profile-col">
+              <span class="p-label">Lunch Type:</span>
+              <span class="p-val" id="res-lunch">Standard</span>
+            </div>
+            <div class="profile-col">
+              <span class="p-label">Test Prep Course:</span>
+              <span class="p-val" id="res-test-prep">None</span>
+            </div>
+          </div>
+
+          <!-- Bottom Action Buttons -->
+          <div class="result-actions">
+            <button type="button" class="btn btn-primary btn-lg" onclick="navigateTo('predict')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 4v6h6M23 20v-6h-6"/>
+                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+              </svg>
+              <span>Predict Again</span>
+            </button>
+            <button type="button" class="btn btn-outline btn-lg" onclick="window.print()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"/>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+              </svg>
+              <span>Print / Save Result</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 4: ABOUT SYSTEM (For BCA Presentation)
+         ========================================== -->
+    <section id="page-about" class="page-section">
+      <div class="section-header text-center">
+        <h2 class="section-title">About This BCA Project</h2>
+        <p class="section-subtitle">Technical architecture, dataset details, and machine learning methodology.</p>
+      </div>
+
+      <div class="about-container">
+        <div class="about-card">
+          <h3>🎓 Project Information</h3>
+          <table class="project-info-table">
+            <tr>
+              <td><strong>Project Title:</strong></td>
+              <td>Student Performance Level Prediction Using Machine Learning</td>
+            </tr>
+            <tr>
+              <td><strong>Course:</strong></td>
+              <td>Bachelor of Computer Applications (BCA)</td>
+            </tr>
+            <tr>
+              <td><strong>ML Algorithm:</strong></td>
+              <td>Decision Tree Classifier (Scikit-learn)</td>
+            </tr>
+            <tr>
+              <td><strong>Backend:</strong></td>
+              <td>Python Flask (REST API & Web Server)</td>
+            </tr>
+            <tr>
+              <td><strong>Frontend:</strong></td>
+              <td>HTML5, Vanilla CSS3, JavaScript (ES6)</td>
+            </tr>
+            <tr>
+              <td><strong>Dataset:</strong></td>
+              <td>StudentsPerformance.csv (1,000 Records)</td>
+            </tr>
+            <tr>
+              <td><strong>Model Accuracy:</strong></td>
+              <td>95.5% on 20% Unseen Test Set</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="about-card">
+          <h3>⚙️ How the System Works</h3>
+          <ol class="workflow-steps">
+            <li>
+              <strong>Data Collection & Preprocessing:</strong>
+              Student demographic data (gender, parental education, lunch, test preparation) and academic marks (math, reading, writing) are gathered from <code>StudentsPerformance.csv</code>.
+            </li>
+            <li>
+              <strong>Feature Encoding:</strong>
+              Categorical attributes are mapped to numerical indices for machine learning processing.
+            </li>
+            <li>
+              <strong>Decision Tree Training:</strong>
+              The classifier learns hierarchical decision boundaries based on score thresholds and student factors to categorize performance into High, Medium, or Low.
+            </li>
+            <li>
+              <strong>Dual Mode & Fallback:</strong>
+              If the trained model file is not available, the website seamlessly defaults to rule-based score calculation, ensuring zero disruption during presentations.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Clean Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Student Performance Level Prediction | BCA College Project Prototype</p>
+      <p class="footer-sub">Built with HTML, CSS, JavaScript, Python Flask & Scikit-learn</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/script.js"></script>
+</body>
+</html>
